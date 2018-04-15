@@ -157,13 +157,13 @@ class GREPort(GenericPort):
 class PGLocalPort(GenericPort):
   def __init__ (self):
     super(PGLocalPort, self).__init__("pg-local")
-    self.shared_vlan = None
+    self.vlan = None
 
   @classmethod
   def _fromdom (cls, elem):
     p = PGLocalPort()
     p.client_id = elem.get("client_id")
-    p.shared_vlan = elem.get("shared-lan")
+    p.vlan = elem.get("shared-lan")
     return p
 
 

@@ -12,7 +12,7 @@ import geni.rspec.pg as PG
 
 context = example_config.buildContext()
 
-am = geni.aggregate.instageni.GPO
+am = geni.aggregate.instageni.UMKC
 ad = am.listresources(context)
 
 vtslans = []
@@ -46,6 +46,6 @@ for (intf, vlan) in pairs:
   
 r.addResource(node)
 
-r.write("gpo-pwe.xml")
+r.writeXML("umkc-pwe.xml")
  
-#am.createsliver(context, "pw-beta", r)
+am.createsliver(context, "vts-main", r)

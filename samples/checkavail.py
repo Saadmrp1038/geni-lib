@@ -36,7 +36,9 @@ def do_parallel ():
     p = MP.Process(target=query_aggregate, args=(context, site, q))
     p.start()
 
-  while MP.active_children():
+  timeout = 180
+  while MP.active_children() and timeout > 0:
+    timeout -= 1
     time.sleep(1)
 
   l = []

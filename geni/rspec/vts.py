@@ -37,6 +37,7 @@ class Request(geni.rspec.RSpec):
 
   def __init__ (self):
     super(Request, self).__init__("request")
+    self.topo_name = None
     self._resources = []
 
     self.addNamespace(GNS.REQUEST, None)
@@ -67,6 +68,10 @@ class Request(geni.rspec.RSpec):
 
   def toXMLString (self, pretty_print = False):
     rspec = self.getDOM()
+
+    if self.topo_name:
+      ci = ET.SubElement(rspec, "{%s}client-info" % (Namespaces.VTS))
+      ci.attrib["topo-name"] = str(self.topo_name)
 
     for resource in self._resources:
       resource._write(rspec)

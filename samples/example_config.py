@@ -21,6 +21,6 @@ def buildContext ():
   context = Context()
   context.addUser(nbastin, default = True)
   context.cf = portal
-  context.project = "bss-sw-test"
+  context.project = "vts-infra"
 
   return context

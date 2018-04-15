@@ -72,6 +72,11 @@ class Connection(germ.Connection):
     d = json.dumps(ipstr)
     requests.post(url, d, **self.rkwargs)
 
+  def addContainerNAT (self, cname, ipstr):
+    url = "https://%s:%d/core/admin/vts/container/%s/nat" % (self.host, self.port, cname)
+    d = json.dumps({"gateway" : "172.17.0.1", "ip-address" : ipstr})
+    requests.put(url, d, **self.rkwargs)
+
   def addCircuitPlane (self, typ, label, endpoint, mtu, types = None, encoded = True):
     if not types: types = []
 
