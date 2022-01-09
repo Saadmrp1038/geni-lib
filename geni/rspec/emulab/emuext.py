@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2019 The University of Utah
+# Copyright (c) 2016-2022 The University of Utah
 
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,8 @@ Common set of RSpec extensions supported by many Emulab-based aggregates
 from __future__ import absolute_import
 
 from ..pg import Request, Namespaces, Link, Node, Service, Command, RawPC
-from ..pg import NodeType
+from ..pg import NodeType, Execute
+from ..igext import Password
 import geni.namespaces as GNS
 from lxml import etree as ET
 
@@ -328,6 +329,38 @@ class InstantiateOn(object):
 
 Node.EXTENSIONS.append(("InstantiateOn", InstantiateOn))
 
+class SubNodeOf(object):
+    class InvalidParent(Exception):
+        def __init__ (self, parent):
+            super(InstantiateOn.InvalidParent, self).__init__()
+            self.parent = parent
+            def __str__ (self):
+                return "%s is not a Raw PC" % (self.parent.name)
+    
+    __ONCEONLY__ = True
+    
+    def __init__(self, parent):
+        if isinstance(parent, Node):
+            # Must be bound to a raw PC.
+            if not isinstance(parent, RawPC):
+                raise InvalidParent(parent)
+            self._parent = parent.name
+        else:
+            # Allow plain name to be used. At the moment the NS converter
+            # is not trying to order nodes, so the vhost might not be
+            # first. 
+            self._parent = parent
+            
+    def _write(self, root):
+        if self._parent == None:
+            return root
+        el = ET.SubElement(root, "{%s}relation" % (GNS.REQUEST.name))
+        el.attrib["type"] = "subnode_of"
+        el.attrib["client_id"] = self._parent
+        return root
+
+Node.EXTENSIONS.append(("SubNodeOf", SubNodeOf))
+
 #
 # A Bridged Link is syntatic sugar for two links separated by a bridge
 # node acting as a delay node.
@@ -600,3 +633,60 @@ class Switch(Node):
     self.setUseTypeDefaultImage()
 
 Request.EXTENSIONS.append(("Switch", Switch))
+
+class initVNC(object):
+    """Added to a top-level Request object, this extension adds required
+    initialization to run VNC consoles on your nodes.
+    """
+    __ONCEONLY__ = True
+    __WANTPARENT__ = True;
+    
+    def __init__(self):
+        self.password = Password("vncpasswd")
+    
+    @property
+    def _parent(self):
+        return self.request
+
+    @_parent.setter
+    def _parent(self, request):
+        self.request = request
+        request.addResource(self.password)        
+
+    # Add an emulab extension for the WEB UI.
+    def _write(self, root):
+        return root
+
+Request.EXTENSIONS.append(("initVNC", initVNC))
+
+class startVNC(object):
+    """Added to a node this extension will tell Emulab based aggregates to
+    install and start a VNC server."""
+    __ONCEONLY__ = True
+    __WANTPARENT__ = True;
+
+    def __init__(self, nostart=False):
+        self.nostart = nostart
+    
+    @property
+    def _parent(self):
+        return self.node
+
+    @_parent.setter
+    def _parent(self, node):
+        self.node = node
+        STARTVNC = "(cd /var/tmp && \
+           (test -e /var/tmp/novnc-setup || \
+            git clone https://gitlab.flux.utah.edu/emulab/novnc-setup.git) && \
+           /bin/bash /var/tmp/novnc-setup/startvnc.sh)"
+        if self.nostart == False:
+            node.addService(Execute(shell="sh", command=STARTVNC))
+            pass
+        
+    # Add an emulab extension for the WEB UI.
+    # Eventually allow port number.
+    def _write(self, node):
+        at = ET.SubElement(node, "{%s}x11vnc" % (Namespaces.EMULAB.name))
+        return node
+
+Node.EXTENSIONS.append(("startVNC", startVNC))
