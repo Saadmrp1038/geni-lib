@@ -665,6 +665,11 @@ class startVNC(object):
     __ONCEONLY__ = True
     __WANTPARENT__ = True;
 
+    STARTVNC = "(cd /var/tmp && \
+        (test -e /var/tmp/novnc-setup || \
+         git clone https://gitlab.flux.utah.edu/emulab/novnc-setup.git) && \
+        /bin/bash /var/tmp/novnc-setup/startvnc.sh)"
+
     def __init__(self, nostart=False):
         self.nostart = nostart
     
@@ -675,12 +680,8 @@ class startVNC(object):
     @_parent.setter
     def _parent(self, node):
         self.node = node
-        STARTVNC = "(cd /var/tmp && \
-           (test -e /var/tmp/novnc-setup || \
-            git clone https://gitlab.flux.utah.edu/emulab/novnc-setup.git) && \
-           /bin/bash /var/tmp/novnc-setup/startvnc.sh)"
         if self.nostart == False:
-            node.addService(Execute(shell="sh", command=STARTVNC))
+            node.addService(Execute(shell="sh", command=self.STARTVNC))
             pass
         
     # Add an emulab extension for the WEB UI.
