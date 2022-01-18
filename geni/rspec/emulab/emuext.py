@@ -11,7 +11,7 @@ Common set of RSpec extensions supported by many Emulab-based aggregates
 from __future__ import absolute_import
 
 from ..pg import Request, Namespaces, Link, Node, Service, Command, RawPC
-from ..pg import NodeType, Execute
+from ..pg import NodeType, Execute, Install, DuplicateExtensionError
 from ..igext import Password
 import geni.namespaces as GNS
 from lxml import etree as ET
@@ -683,6 +683,15 @@ class startVNC(object):
         if self.nostart == False:
             node.addService(Execute(shell="sh", command=self.STARTVNC))
             pass
+        #
+        # Add the top level init. Watch for a duplicate error, ignore
+        # since we try to add it for every node, rather then figure
+        # out if its already done. 
+        try:
+            node._parent.initVNC()
+        except DuplicateExtensionError:
+            pass
+        pass
         
     # Add an emulab extension for the WEB UI.
     # Eventually allow port number.

@@ -566,6 +566,7 @@ class Node(Resource):
     disk_image (Optional[str]): The disk image that should be loaded and run on this node.  Should be an image URN.
   """
   EXTENSIONS = []
+  __WANTPARENT__ = True;
 
   def __init__ (self, name, ntype, component_id = None, exclusive = None):
     super(Node, self).__init__()
@@ -602,6 +603,15 @@ class Node(Resource):
       return instance
     setattr(self, name, wrap)
 
+  @property
+  def _parent(self):
+    return self.parent_request
+
+  @_parent.setter
+  def _parent(self, request):
+    self.parent_request = request
+    pass
+        
   @property
   def name (self):
     return self.client_id
