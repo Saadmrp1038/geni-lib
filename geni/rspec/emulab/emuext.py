@@ -700,3 +700,44 @@ class startVNC(object):
         return node
 
 Node.EXTENSIONS.append(("startVNC", startVNC))
+
+class installDotFiles(object):
+    """Added to a node this extension will tell Emulab based aggregates to
+    download and unpack a tarfile of your .dot files in your home directory.
+    Your .dot files (and directories if you like) should be at the top
+    level of the tarfile so they can be unpacked directly into your home
+    directory. The tarfile should be on a public web server.
+
+    DO NOT PUT SSH/SSL PRIVATE KEYS IN THE TARFILE!
+
+    More generally, you should not put a .ssh directory in the tarfile
+    since that can interfere with account setup and make it impossible
+    for you to log in at all.
+    """
+    __ONCEONLY__ = True
+    __WANTPARENT__ = True;
+
+    INSTALL = "(cd /var/tmp && \
+        (test -e /var/tmp/install-dotfiles.sh || \
+         wget -O install-dotfiles.sh https://www.emulab.net/downloads/install-dotfiles.sh) && \
+        /bin/sh /var/tmp/install-dotfiles.sh)"
+
+    def __init__(self, tarfile):
+        self.tarfile = tarfile
+    
+    @property
+    def _parent(self):
+        return self.node
+
+    @_parent.setter
+    def _parent(self, node):
+        self.node = node
+        node.addService(Install(path="/var/tmp/dots", url=self.tarfile))
+        node.addService(Execute(shell="sh", command=self.INSTALL))
+        pass
+        
+    def _write(self, node):
+        return node
+
+Node.EXTENSIONS.append(("installDotFiles", installDotFiles))
+
