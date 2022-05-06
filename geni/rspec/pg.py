@@ -302,7 +302,6 @@ class Link(Resource):
           self.addInterface(member.addInterface())
 
     self.type = ltype
-    self.shared_vlan = None
     self._mac_learning = True
     self._vlan_tagging = None
     self._trivial_ok = None
@@ -355,10 +354,6 @@ class Link(Resource):
 
   def addComponentManager (self, component_manager):
     self._component_managers.append(component_manager)
-
-  def connectSharedVlan (self, name):
-    self.namespaces.append(GNS.SVLAN)
-    self.shared_vlan = name
 
   def disableMACLearning (self):
     self.namespaces.append(Namespaces.VTOP)
@@ -420,10 +415,6 @@ class Link(Resource):
     if self.type != "":
       lt = ET.SubElement(lnk, "{%s}link_type" % (GNS.REQUEST.name))
       lt.attrib["name"] = self.type
-    if self.shared_vlan:
-      sv = ET.SubElement(lnk, "{%s}link_shared_vlan" % (GNS.SVLAN.name))
-      sv.attrib["name"] = self.shared_vlan
-
     if not self._mac_learning:
       lrnelem = ET.SubElement(lnk, "{%s}link_attribute" % (Namespaces.VTOP.name))
       lrnelem.attrib["key"] = "nomac_learning"

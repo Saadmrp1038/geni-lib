@@ -188,6 +188,43 @@ class createSharedVlan(object):
 
 Link.EXTENSIONS.append(("createSharedVlan", createSharedVlan))
 
+class connectSharedVlan(object):
+    """Added to a Link or LAN object, it connects the new vlan to a shared
+    vlan created by another experiment.
+    """
+    __ONCEONLY__ = True
+    
+    def __init__(self, name):
+        self._enabled = True
+        self._name = name
+    
+    def _write(self, root):
+        if self._enabled == False:
+            return root
+        el = ET.SubElement(root, "{%s}link_shared_vlan" % (GNS.SVLAN.name))
+        el.attrib["name"] = self._name
+        return root
+
+Link.EXTENSIONS.append(("connectSharedVlan", connectSharedVlan))
+
+class enableSharedVlan(object):
+    """Added to a Link or LAN object, it connects the new vlan to a shared
+    vlan created by another experiment.
+    """
+    __ONCEONLY__ = True
+    
+    def __init__(self):
+        self._enabled = True
+    
+    def _write(self, root):
+        if self._enabled == False:
+            return root
+        el = ET.SubElement(root, "{%s}link_shared_vlan" % (GNS.SVLAN.name))
+        el.attrib["placeholder"] = "true"
+        return root
+
+Link.EXTENSIONS.append(("enableSharedVlan", enableSharedVlan))
+
 class setProperties(object):
     """Added to a Link or LAN object, this extension tells Emulab based
     clusters to set the symmetrical properties of the entire link/lan to
