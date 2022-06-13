@@ -9,6 +9,7 @@ from __future__ import absolute_import
 from ..pg import Request, Namespaces, Execute
 from ..pg import NodeType
 from .emuext import startVNC
+from .spectrum import requestSpectrum as RSP
 import geni.namespaces as GNS
 from lxml import etree as ET
 
@@ -17,6 +18,7 @@ class requestBusRoute(object):
         self._name = name
         self.disk_image = None
         self.services = []
+        self.spectrum = []
         self.startvnc = False;
     
     def _write(self, root):
@@ -45,6 +47,13 @@ class requestBusRoute(object):
         if self.startvnc:
             startVNC()._write(el)
             pass
+
+        if self.spectrum:
+            for s in self.spectrum:
+                s._write(el)
+                pass
+            pass
+
         return root
     
     def addService (self, svc):
@@ -58,6 +67,10 @@ class requestBusRoute(object):
             self.services.insert(0, Execute(shell="sh", command=command))
             pass
         pass
+
+    def requestSpectrum(self, low, high, power):
+        self.spectrum.append(RSP(low, high, power))
+
     pass
 
 Request.EXTENSIONS.append(("requestBusRoute", requestBusRoute))
