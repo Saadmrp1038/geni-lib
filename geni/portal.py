@@ -686,21 +686,25 @@ class Context (object):
     return p
 
   def defineStructParameter(self,name,description,defaultValue=None,
-                            longDescription=None,advanced=False,hide=False,
+                            longDescription=None,advanced=False,groupId=None,hide=False,
                             members=[],multiValue=False,min=None,max=None,
                             itemDefaultValue=None,multiValueTitle=None,
                             inputConstraints=None,
                             prefix="emulab.net.parameter."):
+    # Backwards compat for the advanced key.
+    if advanced and groupId == None:
+      groupId="advanced"
+
     if multiValue:
       p = MultiStructParameter(
         name,description,defaultValue,longDescription=longDescription,
-        hide=hide,min=min,max=max,itemDefaultValue=itemDefaultValue,
+        groupId=groupId,hide=hide,min=min,max=max,itemDefaultValue=itemDefaultValue,
         multiValueTitle=multiValueTitle,prefix=prefix,members=members,
         inputConstraints=inputConstraints)
     else:
       p = StructParameter(
         name,description,defaultValue,longDescription=longDescription,
-        hide=hide,prefix=prefix,members=members)
+        groupId=groupId,hide=hide,prefix=prefix,members=members)
     self.addParameter(p)
     return p
 
