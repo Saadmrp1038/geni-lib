@@ -56,6 +56,8 @@ class Request(geni.rspec.RSpec):
       instance = klass(*args, **kw)
       if getattr(klass, "__WANTPARENT__", False):
         instance._parent = self
+      for ns in getattr(klass, "__NAMESPACES__", []):
+        self.addNamespace(ns)
       self._ext_children.append(instance)
       return instance
     setattr(self, name, wrap)
@@ -136,6 +138,8 @@ class Resource(object):
       if getattr(klass, "__ONCEONLY__", False):
         if any(map(lambda x: isinstance(x,klass),self._ext_children)):
           raise DuplicateExtensionError(klass)
+      for ns in getattr(klass, "__NAMESPACES__", []):
+        self.addNamespace(ns)
       instance = klass(*args, **kw)
       self._ext_children.append(instance)
       return instance
@@ -249,6 +253,8 @@ class Interface(object):
       instance = klass(*args, **kw)
       if getattr(klass, "__WANTPARENT__", False):
         instance._parent = self
+      for ns in getattr(klass, "__NAMESPACES__", []):
+        self.addNamespace(ns)
       self._ext_children.append(instance)
       return instance
     setattr(self, name, wrap)
@@ -329,6 +335,8 @@ class Link(Resource):
       instance = klass(*args, **kw)
       if getattr(klass, "__WANTPARENT__", False):
         instance._parent = self
+      for ns in getattr(klass, "__NAMESPACES__", []):
+        self.addNamespace(ns)
       self._ext_children.append(instance)
       return instance
     setattr(self, name, wrap)
@@ -590,6 +598,8 @@ class Node(Resource):
       instance = klass(*args, **kw)
       if getattr(klass, "__WANTPARENT__", False):
         instance._parent = self
+      for ns in getattr(klass, "__NAMESPACES__", []):
+        self.addNamespace(ns)
       self._ext_children.append(instance)
       return instance
     setattr(self, name, wrap)
@@ -714,6 +724,7 @@ class Namespaces(object):
   PARAMS = GNS.Namespace("parameters", "http://www.protogeni.net/resources/rspec/ext/profile-parameters/1")
   DATA = GNS.Namespace("data", "http://www.protogeni.net/resources/rspec/ext/user-data/1")
   DELAY =  GNS.Namespace("delay", "http://www.protogeni.net/resources/rspec/ext/delay/1")
+  ANSIBLE = GNS.Namespace("ansible", "http://www.protogeni.net/resources/rspec/ext/ansible/1")
 
 
 #### DEPRECATED #####
