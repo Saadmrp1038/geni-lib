@@ -11,7 +11,7 @@ import os.path
 import platform
 
 requires = ["cryptography",
-            "ipaddress",
+            "ipaddress; python_version=='2.7'",
             "lxml",
             "requests",
             "wrapt"]
