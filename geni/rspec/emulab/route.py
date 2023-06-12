@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The University of Utah
+# Copyright (c) 2016-2023 The University of Utah
 
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,8 @@ import geni.namespaces as GNS
 from lxml import etree as ET
 
 class requestBusRoute(object):
+    __WANTPARENT__ = True;
+
     def __init__(self, name):
         self._name = name
         self.disk_image = None
@@ -21,6 +23,14 @@ class requestBusRoute(object):
         self.spectrum = []
         self.startvnc = False;
     
+    @property
+    def _parent(self):
+        return self._request
+
+    @_parent.setter
+    def _parent(self, request):
+        self._request = request
+
     def _write(self, root):
         el = ET.SubElement(root, "{%s}busroute" % (Namespaces.EMULAB.name))
         el.attrib["name"] = self._name
@@ -65,6 +75,14 @@ class requestBusRoute(object):
         if nostart == False:
             command = startVNC().STARTVNC
             self.services.insert(0, Execute(shell="sh", command=command))
+            pass
+        #
+        # Add the top level init. Watch for a duplicate error, ignore
+        # since we try to add it for every node, rather then figure
+        # out if its already done. 
+        try:
+            self._parent.initVNC()
+        except DuplicateExtensionError:
             pass
         pass
 
