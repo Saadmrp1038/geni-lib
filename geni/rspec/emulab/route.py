@@ -7,7 +7,7 @@
 from __future__ import absolute_import
 
 from ..pg import Request, Namespaces, Execute
-from ..pg import NodeType
+from ..pg import NodeType, DuplicateExtensionError
 from .emuext import startVNC
 from .spectrum import requestSpectrum as RSP
 import geni.namespaces as GNS
