@@ -693,8 +693,11 @@ class Node(Resource):
     self.interfaces.append(intf)
     return intf
 
-  def addService (self, svc):
-    self.services.append(svc)
+  def addService (self, svc, atfront = False):
+    if atfront:
+      self.services.insert(0, svc)
+    else:
+      self.services.append(svc)
 
   def addRawElement (self, elem):
     self._raw_elements.append(elem)
