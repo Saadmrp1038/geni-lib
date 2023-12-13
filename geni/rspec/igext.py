@@ -570,3 +570,18 @@ encrypted value to the AM(s) and therefore the node(s)."""
       pl.attrib["name"] = self.name
 
     return pl
+
+class EncryptedBlock(Resource):
+  def __init__(self, name, text):
+    super(EncryptedBlock, self).__init__()
+    self.name = name
+    self.text = text
+
+  def _write (self, root):
+    pl = ET.SubElement(root, "{%s}encrypt" % (PGNS.EMULAB.name))
+    if self.name:
+      pl.attrib["name"] = self.name
+      pl.text = self.text
+
+    return pl
+
