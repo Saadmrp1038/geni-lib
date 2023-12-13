@@ -765,6 +765,7 @@ class mountCephFS(object):
         lan.addInterface(node.addInterface())
         lan.best_effort = True
         lan.link_multiplexing = True
+        lan.setJumboFrames()
         lan.connectSharedVlan("powder-ceph");
         # Schedule the startup script
         if self.nostart == False:
