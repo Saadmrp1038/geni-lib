@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The University of Utah
+# Copyright (c) 2016-2023 The University of Utah
 
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -737,6 +737,46 @@ class startVNC(object):
         return node
 
 Node.EXTENSIONS.append(("startVNC", startVNC))
+
+class mountCephFS(object):
+    """Added to a node this extension will tell Emulab based aggregates to
+    install Ceph client-side packages, customize for the project, and
+    mount a subdirectory of theC eph filesystem."""
+    __ONCEONLY__ = True
+    __WANTPARENT__ = True;
+
+    STARTCEPH = "(cd /var/tmp && \
+        (test -e /var/tmp/powder-ceph-client || \
+         git clone https://gitlab.flux.utah.edu/hibler/powder-ceph-client.git) && \
+        sudo bash /var/tmp/powder-ceph-client/scripts/startup.sh)"
+
+    def __init__(self, nostart=False):
+        self.nostart = nostart
+    
+    @property
+    def _parent(self):
+        return self.node
+
+    @_parent.setter
+    def _parent(self, node):
+        self.node = node
+        # Join this node with the Ceph shared lan
+        lan = node._parent.LAN()
+        lan.addInterface(node.addInterface())
+        lan.best_effort = True
+        lan.link_multiplexing = True
+        lan.connectSharedVlan("powder-ceph");
+        # Schedule the startup script
+        if self.nostart == False:
+            # N.B. we add our service at the beginning
+            node.addService(Execute(shell="sh", command=self.STARTCEPH), True)
+            pass
+        pass
+        
+    def _write(self, root):
+        return root
+
+Node.EXTENSIONS.append(("mountCephFS", mountCephFS))
 
 class installDotFiles(object):
     """Added to a node this extension will tell Emulab based aggregates to
