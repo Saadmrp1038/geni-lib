@@ -225,6 +225,20 @@ class enableSharedVlan(object):
 
 Link.EXTENSIONS.append(("enableSharedVlan", enableSharedVlan))
 
+class setVlanTag(object):
+    """Added to a Link or LAN object, request a specific vlan tag 
+    """
+    __ONCEONLY__ = True
+    
+    def __init__(self, tag):
+        self._tag = tag
+    
+    def _write(self, root):
+        root.attrib["vlantag"] = str(self._tag)
+        return root
+
+Link.EXTENSIONS.append(("setVlanTag", setVlanTag))
+
 class setProperties(object):
     """Added to a Link or LAN object, this extension tells Emulab based
     clusters to set the symmetrical properties of the entire link/lan to
