@@ -55,7 +55,7 @@ class DualModeTrunking(object):
     @_parent.setter
     def _parent(self, link):
         self.link = link
-        link.best_effort = True
+        #link.best_effort = True
         if self._nativeVlan:
             link.vlan_tagging = True
             link.link_multiplexing = True
