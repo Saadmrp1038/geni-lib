@@ -2,7 +2,6 @@ geni.aggregate.vts
 ==================
 
 .. automodule:: geni.aggregate.vts
-  :undoc-members:
-  :inherited-members:
   :members:
-
+  :undoc-members:
+  :show-inheritance:

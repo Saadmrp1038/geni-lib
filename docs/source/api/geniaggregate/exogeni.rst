@@ -2,7 +2,7 @@ geni.aggregate.exogeni
 ======================
 
 .. automodule:: geni.aggregate.exogeni
-  :undoc-members:
-  :inherited-members:
   :members:
+  :undoc-members:
+  :show-inheritance:
 
