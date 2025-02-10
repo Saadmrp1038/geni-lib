@@ -14,7 +14,6 @@ Contents:
    intro/intro
    intro/credentials
    intro/install
-   intro/config
 
    tutorials/index
 
