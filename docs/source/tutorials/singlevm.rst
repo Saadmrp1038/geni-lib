@@ -5,7 +5,7 @@
   \newpage
 
 Creating a Request for a Single VM
-=================================
+==================================
 
 This example walks through the basic of creating an RSpec (xml file) requesting
 a single VM from a compute aggregate.  This example does not require that `geni-lib`
