@@ -7,7 +7,7 @@ ProtoGENI, Emulab, GENI Clearinghouse, etc.), as well as your user information (
 login username, federation urn, etc.).  This simple tutorial will walk you through the easiest
 way to create a ``Context`` if you have an account at the `GENI Portal <http://portal.geni.net>`_.
 
-First you need to :doc:`acquire your GENI credentials </intro/creds/portal>`.
+First you need to :doc:`acquire your GENI credentials </intro/creds/cloudlab>`.
 
 =======================
 Run Context Import Tool
