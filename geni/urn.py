@@ -137,7 +137,7 @@ class GENI (Base):
     1) Pass a single string in GENI URN format ('urn:publicid:IDN+auth+type+name')
 
     2) Pass three arguments: the authority (a single string), the type (see the
-       TYPE_ variables in this class), and the object name
+       TYPE_* variables in this class), and the object name
 
     3) Pass three arguments: as #2, but the authorit(ies) are passed as a list,
        with the top-level authority coming first, followed by any subauthorities

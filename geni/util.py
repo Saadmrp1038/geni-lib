@@ -57,7 +57,7 @@ def _corelogininfo (manifest):
 def printlogininfo (context = None, am = None, slice = None, manifest = None):
   """Prints out host login info in the format:
 ::
-  [client_id][username] hostname:port
+[client_id][username] hostname:port
 
 If a manifest object is provided the information will be mined from this data,
 otherwise you must supply a context, slice, and am and a manifest will be
@@ -93,7 +93,7 @@ def _mp_get_manifest (context, site, slc, q):
 def getManifests (context, ams, slices):
   """Returns a two-level dictionary of the form:
 ::
-  {slice_name : { site_object : manifest_object, ... }, ...}
+{slice_name : { site_object : manifest_object, ... }, ...}
 
 Containing the manifests for all provided slices at all the provided
 sites.  Requests are made in parallel and the function blocks until the
@@ -135,7 +135,7 @@ def _mp_get_advertisement (context, site, q):
 def getAdvertisements (context, ams):
   """Returns a dictionary of the form:
 ::
-  { site_object : advertisement_object, ...}
+{ site_object : advertisement_object, ...}
 
 Containing the advertisements for all the requested aggregates.  Requests
 are made in parallel and the function blocks until the slowest site

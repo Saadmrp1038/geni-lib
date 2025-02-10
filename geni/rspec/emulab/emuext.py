@@ -424,7 +424,7 @@ class BridgedLink(object):
 separated by an Emulab delay (bridge) node. The BridgedLink class will
 create the following topology:
 
-	      left-link          right-link
+	.      left-link          right-link
 	node1 =========== bridge ============ node2
 
 The bridge is a special node type (sliver_type="delay") that tells the
