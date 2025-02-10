@@ -20,5 +20,4 @@ Guides:
 .. toctree::
   :maxdepth: 1
 
-  creds/portal
   creds/cloudlab
