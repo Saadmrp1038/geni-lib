@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: geni-lib
+Version: 0.9.9.5
+Summary: Library and tools for working with research testbed resources that support the GENI AM API, including the NSF GENI Testbed (www.geni.net) and Cloudlab (cloudlab.us).
+Home-page: https://gitlab.flux.utah.edu/emulab/geni-lib
+Author: Nick Bastin and the University of Utah
+Author-email: nick@bssoftworks.com
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)
+License-File: LICENSE
+Requires-Dist: cryptography
+Requires-Dist: ipaddress; python_version == "2.7"
+Requires-Dist: lxml
+Requires-Dist: requests
+Requires-Dist: wrapt
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+geni-lib is a Python library for interacting with the `NSF GENI Federation <http://www.geni.net>`_,
+or any resource pool that uses components of the `GENI Software Architecture <http://groups.geni.net/geni/raw-attachment/wiki/GeniArchitectTeam/GENI%20Software%20Architecture%20v1.0.pdf>`_.
+
+Common uses include orchestrating repeatable experiments and writing small tools for
+inspecting the resources available in a given federation.  There are also a number
+of administrative API handlers available for interacting with software commonly used
+in experiments - particularly those exposing services to other experimenters.
+
+Documentation can be found at `https://geni-lib.readthedocs.io <https://geni-lib.readthedocs.io>`_.

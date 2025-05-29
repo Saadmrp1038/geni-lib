@@ -11,18 +11,16 @@ The module-level `makeFile` method uses a pre-existing singleton manager for the
 while individual `TempfileManager` instances can be created to serve different user needs and scopes.
 """
 
-
-
-from . import tempfile
 import os
 import shutil
 import atexit
+import tempfile as pytempfile
 
 class TempfileManager(object):
   """Global tempfile manager for the current process that guarantees deletion when the process ends."""
 
   def __init__ (self):
-    self.path = tempfile.mkdtemp()
+    self.path = pytempfile.mkdtemp()
 
   def clear (self):
     shutil.rmtree(self.path, ignore_errors = True)
@@ -31,7 +29,7 @@ class TempfileManager(object):
     """Create a temporary file.  The open file object and full path are returned.
        .. note:
          You may delete this file at any time, otherwise it will be deleted when the process exits."""
-    (handle, path) = tempfile.mkstemp(dir = self.path)
+    (handle, path) = pytempfile.mkstemp(dir = self.path)
     return (os.fdopen(handle, "wb"), path)
 
 TFM = TempfileManager()
