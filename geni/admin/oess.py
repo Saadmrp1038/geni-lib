@@ -20,7 +20,7 @@ class Workgroup(object):
 
 class Node(object):
   def __init__ (self, ndata):
-    self.dpid = DPID(long(ndata["dpid"]))
+    self.dpid = DPID(int(ndata["dpid"]))
     self.name = ndata["name"]
     self.node_id = int(ndata["node_id"])
     self.state = ndata["operational_state"]

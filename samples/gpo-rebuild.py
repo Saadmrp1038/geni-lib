@@ -27,7 +27,7 @@ node = PG.RawPC("vts")
 node.disk_image = "https://www.instageni.maxgigapop.net/image_metadata.php?uuid=3219aad0-ac89-11e3-b767-000000000000"
 
 intfs = []
-for idx in xrange(1,4):
+for idx in range(1,4):
   intf = node.addInterface("if%d" % (idx))
   intf.component_id = "eth%d" % (idx)
   intfs.append(intf)
@@ -36,7 +36,7 @@ for idx in xrange(1,4):
   lnk.connectSharedVlan("mesoscale-openflow")
   r.addResource(lnk)
 
-pairs = zip(itertools.cycle(intfs), vtsvlans)
+pairs = list(zip(itertools.cycle(intfs), vtsvlans))
 for (intf, vlan) in pairs:
   lnk = PG.Link()
   lnk.addInterface(intf)
@@ -46,5 +46,5 @@ for (intf, vlan) in pairs:
 r.addResource(node)
 
 mfest = am.createsliver(context, "vts-stage", r)
-print mfest.text
-print mfest
+print((mfest.text))
+print(mfest)

@@ -33,9 +33,9 @@ def main (opts):
     except ClearinghouseError:
       key_data[member.urn] = None
 
-  for urn,pklist in key_data.items():
+  for urn,pklist in list(key_data.items()):
     if not pklist:
-      print "[%s] No Clearinghouse Response (possibly not in a slice)" % (urn)
+      print(("[%s] No Clearinghouse Response (possibly not in a slice)" % (urn)))
       continue
 
     sigs = []
@@ -46,8 +46,8 @@ def main (opts):
       raw_data = base64.b64decode(b64data)
       mdh = hashlib.md5(raw_data)
       s = mdh.hexdigest()
-      sigs.append(":".join(["%s%s" % (s[x], s[x+1]) for x in xrange(0, len(s), 2)]))
-    print "[%s] %s" % (urn, ", ".join(sigs))
+      sigs.append(":".join(["%s%s" % (s[x], s[x+1]) for x in range(0, len(s), 2)]))
+    print(("[%s] %s" % (urn, ", ".join(sigs))))
 
 if __name__ == '__main__':
   opts = parse_args()

@@ -15,7 +15,7 @@ context = example_config.buildContext()
 
 ad = IG.NYSERNet.listresources(context)
 
-pairs = itertools.izip(xrange(1,4), [x.name for x in ad.shared_vlans if x.name.startswith("vts")])
+pairs = list(zip(list(range(1,4)), [x.name for x in ad.shared_vlans if x.name.startswith("vts")]))
 
 r = PG.Request()
 

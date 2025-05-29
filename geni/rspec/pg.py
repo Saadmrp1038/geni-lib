@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import
+
 
 import itertools
 import sys
@@ -51,7 +51,7 @@ class Request(geni.rspec.RSpec):
     @functools.wraps(klass.__init__)
     def wrap(*args, **kw):
       if getattr(klass, "__ONCEONLY__", False):
-        if any(map(lambda x: isinstance(x,klass),self._ext_children)):
+        if any([isinstance(x,klass) for x in self._ext_children]):
           raise DuplicateExtensionError(klass)
       instance = klass(*args, **kw)
       if getattr(klass, "__WANTPARENT__", False):
@@ -136,7 +136,7 @@ class Resource(object):
     @functools.wraps(klass.__init__)
     def wrap(*args, **kw):
       if getattr(klass, "__ONCEONLY__", False):
-        if any(map(lambda x: isinstance(x,klass),self._ext_children)):
+        if any([isinstance(x,klass) for x in self._ext_children]):
           raise DuplicateExtensionError(klass)
       for ns in getattr(klass, "__NAMESPACES__", []):
         self.addNamespace(ns)
@@ -248,7 +248,7 @@ class Interface(object):
     @functools.wraps(klass.__init__)
     def wrap(*args, **kw):
       if getattr(klass, "__ONCEONLY__", False):
-        if any(map(lambda x: isinstance(x,klass),self._ext_children)):
+        if any([isinstance(x,klass) for x in self._ext_children]):
           raise DuplicateExtensionError(klass)
       instance = klass(*args, **kw)
       if getattr(klass, "__WANTPARENT__", False):
@@ -330,7 +330,7 @@ class Link(Resource):
     @functools.wraps(klass.__init__)
     def wrap(*args, **kw):
       if getattr(klass, "__ONCEONLY__", False):
-        if any(map(lambda x: isinstance(x,klass),self._ext_children)):
+        if any([isinstance(x,klass) for x in self._ext_children]):
           raise DuplicateExtensionError(klass)
       instance = klass(*args, **kw)
       if getattr(klass, "__WANTPARENT__", False):
@@ -593,7 +593,7 @@ class Node(Resource):
     @functools.wraps(klass.__init__)
     def wrap(*args, **kw):
       if getattr(klass, "__ONCEONLY__", False):
-        if any(map(lambda x: isinstance(x,klass),self._ext_children)):
+        if any([isinstance(x,klass) for x in self._ext_children]):
           raise DuplicateExtensionError(klass)
       instance = klass(*args, **kw)
       if getattr(klass, "__WANTPARENT__", False):

@@ -21,9 +21,9 @@ def get_advertisement (context, site):
     f = open("%s-ad.xml" % (site.name), "w+")
     f.write(ad.text)
     f.close()
-    print "[%s] Done" % (site.name)
-  except Exception, e:
-    print "[%s] OFFLINE" % (site.name)
+    print(("[%s] Done" % (site.name)))
+  except Exception as e:
+    print(("[%s] OFFLINE" % (site.name)))
   
 
 def do_parallel ():

@@ -8,7 +8,7 @@
 Common set of RSpec extensions supported by many Emulab-based aggregates
 """
 
-from __future__ import absolute_import
+
 
 from ..pg import Request, Namespaces, Link, Node, Service, Command, RawPC
 from ..pg import NodeType, Execute, Install, DuplicateExtensionError

@@ -20,7 +20,7 @@ context = nbastin.buildContext()
 SLICE = "gec-20-demo"
 
 # Delete the slivers if they already exist
-print "-- Deleting any existing slivers"
+print("-- Deleting any existing slivers")
 geni.util.deleteSliverExists(VTSAM.GPO, context, SLICE)
 geni.util.deleteSliverExists(VTSAM.Illinois, context, SLICE)
 geni.util.deleteSliverExists(IG.GPO, context, SLICE)
@@ -30,7 +30,7 @@ geni.util.deleteSliverExists(IG.Illinois, context, SLICE)
 image = VTS.OVSL2Image()
 
 # Get advertisements so we can get circuit-plane info
-print "-- Getting VTS advertisements"
+print("-- Getting VTS advertisements")
 gpoad = VTSAM.GPO.listresources(context)
 uiucad = VTSAM.Illinois.listresources(context)
 
@@ -46,7 +46,7 @@ uiucvtsr.addResource(dp)
 uiucvtsr.write("uiuc-vts-request.xml")
 
 # Make the VTS Reservation at Illinois
-print "-- Making Illinois VTS reservation"
+print("-- Making Illinois VTS reservation")
 uiucvtsm = VTSAM.Illinois.createsliver(context, SLICE, uiucvtsr)
 uiucvtsm.write("uiuc-vts-manifest.xml")
 
@@ -59,7 +59,7 @@ gpovtsr.addResource(dp)
 gpovtsr.write("gpo-vts-request.xml")
 
 # Make the VTS reservation at GPO
-print "-- Making GPO VTS reservation"
+print("-- Making GPO VTS reservation")
 gpovtsm = VTSAM.GPO.createsliver(context, SLICE, gpovtsr)
 gpovtsm.write("gpo-vts-manifest.xml")
 
@@ -92,10 +92,10 @@ for idx, circuit in enumerate(gpovtsm.pg_circuits):
 gpopgr.write("gpo-ig-request.xml")
 
 # Make both IG reservations and wait
-print "-- Making GPO IG reservation"
+print("-- Making GPO IG reservation")
 gpopgm = IG.GPO.createsliver(context, SLICE, gpopgr)
 gpopgm.write("gpo-ig-manifest.xml")
-print "-- Making Illinois IG reservation"
+print("-- Making Illinois IG reservation")
 uiucpgm = IG.Illinois.createsliver(context, SLICE, uiucpgr)
 uiucpgm.write("uiuc-ig-manifest.xml")
 

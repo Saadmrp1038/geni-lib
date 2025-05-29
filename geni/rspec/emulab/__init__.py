@@ -8,7 +8,7 @@
 aggregates. In most cases, you will not need to load these extension libraries
 individually, just load this one."""
 
-from __future__ import absolute_import
+
 
 from ..igext import *
 from .emuext import *

@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import, print_function
+
 
 import datetime
 import json
@@ -13,7 +13,7 @@ import os
 import os.path
 import shutil
 import subprocess
-import tempfile
+from . import tempfile
 import time
 import traceback as tb
 import zipfile
@@ -68,7 +68,7 @@ requested from the given aggregate."""
 
   info = _corelogininfo(manifest)
   for line in info:
-    print("[%s][%s] %s: %d" % (line[0], line[1], line[2], line[3]))
+    print(("[%s][%s] %s: %d" % (line[0], line[1], line[2], line[3])))
 
 
 # You can't put very much information in a queue before you hang your OS
@@ -194,7 +194,7 @@ def _buildaddot(ad, drop_nodes = None):
   for link in ad.links:
     if not len(link.interface_refs) == 2:
       print("Link with more than 2 interfaces:")
-      print(link.text)
+      print((link.text))
 
     name_1 = link.interface_refs[0].split(":")[-2].split("+")[-1]
     name_2 = link.interface_refs[1].split(":")[-2].split("+")[-1]
@@ -337,7 +337,7 @@ def updateAggregates (context, ammap):
   from .aggregate.core import loadFromRegistry
 
   new_map = loadFromRegistry(context)
-  for k,v in new_map.items():
+  for k,v in list(new_map.items()):
     if k not in ammap:
       ammap[k] = v
   saveAggregates(ammap)
@@ -348,7 +348,7 @@ def saveAggregates (ammap, path = None):
   if not path:
     path = GCU.getDefaultAggregatePath()
 
-  obj = {"specs" : [x._amspec for x in ammap.values() if x._amspec]}
+  obj = {"specs" : [x._amspec for x in list(ammap.values()) if x._amspec]}
   with open(path, "w+") as f:
     data = json.dumps(obj, cls=APIEncoder)
     f.write(data)

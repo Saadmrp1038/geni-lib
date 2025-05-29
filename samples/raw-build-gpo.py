@@ -26,7 +26,7 @@ r = PG.Request()
 node = PG.RawPC("vts")
 
 intfs = []
-for idx in xrange(1,4):
+for idx in range(1,4):
   # Make interfaces attached to specific pnics, attach them all to mesoscale vlan
   intf = node.addInterface("if%d" % (idx))
   intf.component_id = "eth%d" % (idx)
@@ -37,7 +37,7 @@ for idx in xrange(1,4):
   r.addResource(lnk)
 
 # Evenly spread all the shared VLANs we found over the pnics
-pairs = zip(itertools.cycle(intfs), vtslans)
+pairs = list(zip(itertools.cycle(intfs), vtslans))
 for (intf, vlan) in pairs:
   lnk = PG.Link()
   lnk.addInterface(intf)

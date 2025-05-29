@@ -6,12 +6,12 @@
 
 """Library for dealing with scripts that are run in the context of a portal."""
 
-from __future__ import absolute_import
+
 
 import sys
 import os
 import atexit
-import warnings
+from . import warnings
 import json
 import argparse
 from argparse import Namespace
@@ -48,13 +48,13 @@ class DictNamespace(dict,Namespace):
     self.__setitem__(attr,value)
 
   def __getattr__(self,attr):
-    if attr in self.keys():
+    if attr in list(self.keys()):
       return self.__getitem__(attr)
     else:
       return dict.__getattribute__(self,attr)
 
   def __delattr__(self,attr):
-    if attr in self.keys():
+    if attr in list(self.keys()):
       return self.__delitem__(attr)
     else:
       return dict.__delattribute__(self,attr)
@@ -483,7 +483,7 @@ class StructParameter(Parameter):
         continue
       nvalue[x] = self.parameters[x]._parseValue(self.parameters[x].defaultValue)
     for x in self.parameters:
-      if not x in value.keys():
+      if not x in list(value.keys()):
         nvalue[x] = self.parameters[x].defaultValue
     LOG.debug("%s(%s) -> %s" % (self.name,str(value),str(nvalue)))
     return DictNamespace(nvalue)
@@ -876,7 +876,7 @@ class Context (object):
             if not "errors" in v:
               v["errors"] = []
             v["errors"].append(str(erridx))
-        for param in err.fixedValues.keys():
+        for param in list(err.fixedValues.keys()):
           try:
             v = self._getEnvParamForPath(param)
             LOG.debug("v = %s" % (str(v)))
@@ -905,7 +905,7 @@ class Context (object):
             if not "warnings" in v:
               v["warnings"] = []
             v["warnings"].append(str(erridx))
-        for param in err.fixedValues.keys():
+        for param in list(err.fixedValues.keys()):
           try:
             v = self._getEnvParamForPath(param)
             LOG.debug("v = %s" % (str(v)))
@@ -978,7 +978,7 @@ class Context (object):
       if "value" in p:
         return self._flattenEnvParams(p["value"])
       ret = {}
-      for k in p.keys():
+      for k in list(p.keys()):
         ret[k] = self._flattenEnvParams(p[k])
       LOG.debug("ret -> %s" % (str(ret)))
     elif isinstance(p,list):
@@ -1153,7 +1153,7 @@ class PortalError (Exception):
 
   def __objdict__(self):
     retval = dict({ 'errorType': self.__class__.__name__, })
-    for k in self.__dict__.keys():
+    for k in list(self.__dict__.keys()):
       if k == 'errorType':
         continue
       if k.startswith('_'):

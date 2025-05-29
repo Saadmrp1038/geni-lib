@@ -74,22 +74,22 @@ def do_parallel ():
           vz_total += 100
         entries.append("   [%s] %s/57 (%s)" % (cid, count, typ))
     except Exception:
-      print res
-    print "%02d %s (Used: %d Xen, %d OpenVZ)" % (idx+1, site_name, site_xen, site_vz)
+      print(res)
+    print(("%02d %s (Used: %d Xen, %d OpenVZ)" % (idx+1, site_name, site_xen, site_vz)))
     for entry in entries:
-      print entry
+      print(entry)
 
-  print "Used"
-  print "----"
-  print "OpenVZ: %d/%d" % (vz_avail, vz_total)
-  print "Xen: %d/%d" % (xen_used, xen_total)
-  print 
+  print("Used")
+  print("----")
+  print(("OpenVZ: %d/%d" % (vz_avail, vz_total)))
+  print(("Xen: %d/%d" % (xen_used, xen_total)))
+  print() 
 
-  print "Overloaded hosts: %d" % (len(overload_cids))
-  print "Underloaded hosts: %d" % (len(underload_cids))
+  print(("Overloaded hosts: %d" % (len(overload_cids))))
+  print(("Underloaded hosts: %d" % (len(underload_cids))))
 
   for cid,used in overload_cids:
-    print "%02d - %s" % (used, cid)
+    print(("%02d - %s" % (used, cid)))
 
 if __name__ == '__main__':
   do_parallel()

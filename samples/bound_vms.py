@@ -29,5 +29,5 @@ for x in [1,2,3]:
 manifest = IG.Utah.createsliver(context, "xen-test2", r)
 for node in manifest.nodes:
   for login in node.logins:
-    print "[%s] %s:%d" % (node.name, login.hostname, login.port)
+    print(("[%s] %s:%d" % (node.name, login.hostname, login.port)))
 

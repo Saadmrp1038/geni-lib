@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import
+
 
 import datetime
 from io import open
@@ -21,10 +21,10 @@ class SlicecredProxy(object):
     return self._context._getSliceCred(name)
 
   def iteritems (self):
-    return iter(self._context._slicecred_paths.items())
+    return iter(list(self._context._slicecred_paths.items()))
 
   def iterkeys (self):
-    return iter(self._context._slicecred_paths.keys())
+    return iter(list(self._context._slicecred_paths.keys()))
 
   def __iter__ (self):
     for x in self._context._slicecred_paths:

@@ -43,7 +43,7 @@ def am_exc_handler (self, etype, value, tb, tb_offset = None):
       out.append("AM Log URL: <%s>" % (value.error_url))
     except AttributeError:
       pass
-  print "\n".join(out)
+  print(("\n".join(out)))
 
 
 def topo (manifests, engine = "circo"):
@@ -91,7 +91,7 @@ class ListGrid(object):
     if hdr:
       self.header = """<tr><th colspan="%d" scope="row"><b>%s</b></th></tr>""" % (cols, hdr)
     rowc = ["<tr>"]
-    for idx in xrange(cols):
+    for idx in range(cols):
       rowc.append("<td>%s</td>")
     rowc.append("</tr>")
     self.row = "".join(rowc)
@@ -102,7 +102,7 @@ class ListGrid(object):
       args = [iter(contents)] * self.cols
     else:
       args = [iter(self.iterable)] * self.cols
-    rows = [self.row % tuple([str(y) for y in x]) for x in itertools.izip_longest(fillvalue="&nbsp;", *args)]
+    rows = [self.row % tuple([str(y) for y in x]) for x in itertools.zip_longest(fillvalue="&nbsp;", *args)]
     out = """
     <table>
     %s
@@ -183,7 +183,7 @@ def dictListBuilder (objlist, filter_cols, display_names):
       newl.append(obj[col])
     flist.append(newl)
 
-  rtemplate = "<tr>%s</tr>" % ("".join(["<td>{%d}</td>" % (x) for x in xrange(len(display_names))]))
+  rtemplate = "<tr>%s</tr>" % ("".join(["<td>{%d}</td>" % (x) for x in range(len(display_names))]))
 
   return RetListProxy(flist, display_names, rtemplate, True)
 
@@ -284,10 +284,10 @@ def dumpFlows (self, context, sname, datapaths, **kwargs):
   res = self._dumpFlows(context, sname, datapaths, **kwargs)
 
   if len(res) == 1:
-    return RetListProxy(flowTableDecomp(res.values()[0]), FLOWCOLS, FLOWROW)
+    return RetListProxy(flowTableDecomp(list(res.values())[0]), FLOWCOLS, FLOWROW)
 
   retd = {}
-  for brname,table in res.items():
+  for brname,table in list(res.items()):
     retd[brname] = RetListProxy(flowTableDecomp(table), FLOWCOLS, FLOWROW)
   return retd
 
@@ -325,10 +325,10 @@ def getLeaseInfo (self, context, sname, client_ids):
   res = self._getLeaseInfo(context, sname, client_ids)
   
   if len(res) == 1:
-    return RetListProxy(res.values()[0], LEASECOLS, LEASEROW)
+    return RetListProxy(list(res.values())[0], LEASECOLS, LEASEROW)
   
   retobj = {}
-  for k,v in res.items():
+  for k,v in list(res.items()):
     retobj[k] = RetListProxy(v, LEASECOLS, LEASEROW)
   return retobj
 
@@ -336,15 +336,15 @@ def getPortInfo (self, context, sname, client_ids):
   res = self._getPortInfo(context, sname, client_ids)
 
   if len(res) == 1:
-    return RetListProxy(res.values()[0], PINFOCOLS, PINFOROW)
+    return RetListProxy(list(res.values())[0], PINFOCOLS, PINFOROW)
 
   retobj = {}
-  for k,v in res.items():
+  for k,v in list(res.items()):
     retobj[k] = RetListProxy(v, PINFOCOLS, PINFOROW)
   return retobj
 
 def portDown (self, context, sname, port):
-  if isinstance(port, (str, unicode)):
+  if isinstance(port, str):
     pass
   elif isinstance(port, geni.rspec.vtsmanifest.GenericPort):
     port = port.client_id
@@ -352,7 +352,7 @@ def portDown (self, context, sname, port):
   return self._portDown(context, sname, port)
 
 def portUp (self, context, sname, port):                                                                                     
-  if isinstance(port, (str, unicode)):                                                                                         
+  if isinstance(port, str):                                                                                         
     pass
   elif isinstance(port, geni.rspec.vtsmanifest.GenericPort):                                                                   
     port = port.client_id                                                                                                      
@@ -375,11 +375,11 @@ def getL2Table (self, context, sname, client_ids):
   res = self._getL2Table(context, sname, client_ids)
 
   if len(res) == 1:
-    return RetListProxy(macTableDecomp(res.values()[0]), MACCOLS, MACROW)
+    return RetListProxy(macTableDecomp(list(res.values())[0]), MACCOLS, MACROW)
 
   retd = {}
   for l2d in res:
-    for bridge, table in l2d.items():
+    for bridge, table in list(l2d.items()):
       rowobjs = macTableDecomp(table)
       retd[bridge] = RetListProxy(rowobjs, MACCOLS, MACROW)
 
@@ -402,11 +402,11 @@ ARP_COLS = ["HW Address", "IP Address", "Status", "Interface"]
 def getARPTable (self, context, sname, client_ids):
   res = self._getARPTable(context, sname, client_ids)
 
-  if len(res.items()) == 1:
+  if len(list(res.items())) == 1:
     return dictListBuilder(res.popitem()[1], ARP_FILTER, ARP_COLS)
 
   retobj = {}
-  for k,v in res.items():
+  for k,v in list(res.items()):
     retobj[k] = dictListBuilder(v, ARP_FILTER, ARP_COLS)
   return retobj
 replaceSymbol(HostPOAs, "getARPTable", getARPTable)
@@ -416,11 +416,11 @@ ROUTE_COLS = ["Destination", "Mask", "Gateway", "Interface"]
 def getRouteTable (self, context, sname, client_ids):
   res = self._getRouteTable(context, sname, client_ids)
 
-  if len(res.items()) == 1:
+  if len(list(res.items())) == 1:
     return dictListBuilder(res.popitem()[1], ROUTE_FILTER, ROUTE_COLS)
 
   retobj = {}
-  for k,v in res.items():
+  for k,v in list(res.items()):
     retobj[k] = dictListBuilder(v, ROUTE_FILTER, ROUTE_COLS)
   return retobj
 replaceSymbol(HostPOAs, "getRouteTable", getRouteTable)
@@ -429,11 +429,11 @@ QROUTE_FILTER = ["type", "selected", "network", "next-hop", "interface", "time"]
 QROUTE_COLS = ["", "Selected", "Network", "Next Hop", "Interface", "Duration"]
 def getIPRouteTable (self, context, sname, client_ids):
   res = self._getRouteTable(context, sname, client_ids)
-  if len(res.items()) == 1:
+  if len(list(res.items())) == 1:
     return dictListBuilder(res.popitem()[1], QROUTE_FILTER, QROUTE_COLS)
 
   retobj = {}
-  for k,v in res.items():
+  for k,v in list(res.items()):
     retobj[k] = dictListBuilder(v, QROUTE_FILTER, QROUTE_COLS)
   return retobj
 replaceSymbol(v4RouterPOAs, "getRouteTable", getIPRouteTable)
@@ -442,11 +442,11 @@ NEIGHBOR_FILTER = ["id", "priority", "state", "dead-time", "address", "interface
 NEIGHBOR_COLS = ["ID", "Priority", "State", "Dead Time", "Address", "Interface"]
 def getOSPFNeighbors (self, context, sname, client_ids):
   res = self._getOSPFNeighbors(context, sname, client_ids)
-  if len(res.items()) == 1:
+  if len(list(res.items())) == 1:
     return dictListBuilder(res.popitem()[1], NEIGHBOR_FILTER, NEIGHBOR_COLS)
 
   retobj = {}
-  for k,v in res.items():
+  for k,v in list(res.items()):
     retobj[k] = dictListBuilder(v, NEIGHBOR_FILTER, NEIGHBOR_COLS)
   return retobj
 replaceSymbol(v4RouterPOAs, "getOSPFNeighbors", getOSPFNeighbors)
@@ -455,11 +455,11 @@ DNSRR_FILTER = ["type", "name", "value"]
 DNSRR_COLS = ["Type", "Name", "Value"]
 def getAllDNSResourceRecords(self, context, sname, client_ids):
   res = self._getAllDNSResourceRecords(context, sname, client_ids)
-  if len(res.items()) == 1:
+  if len(list(res.items())) == 1:
     return dictListBuilder(res.popitem()[1], DNSRR_FILTER, DNSRR_COLS)
 
   retobj = {}
-  for k,v in res.items():
+  for k,v in list(res.items()):
     retobj[k] = dictListBuilder(v, DNSRR_FILTER, DNSRR_COLS)
   return retobj
 replaceSymbol(VTS, "getAllDNSResourceRecords", getAllDNSResourceRecords)
@@ -468,11 +468,11 @@ LASTDNSDHC_FILTER = ["data"]
 LASTDNSDHC_COLS = ["Log"]
 def getLastDNSDHCPops(self, context, sname, client_ids, count, type):
   res = self._getLastDNSDHCPops(context, sname, client_ids, count, type)
-  if len(res.items()) == 1:
+  if len(list(res.items())) == 1:
     return dictListBuilder(res.popitem()[1], LASTDNSDHC_FILTER, LASTDNSDHC_COLS)
 
   retobj = {}
-  for k,v in res.items():
+  for k,v in list(res.items()):
     retobj[k] = dictListBuilder(v, LASTDNSDHC_FILTER, LASTDNSDHC_COLS)
   return retobj
 replaceSymbol(VTS, "getLastDNSDHCPops", getLastDNSDHCPops)

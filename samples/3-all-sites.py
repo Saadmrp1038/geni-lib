@@ -14,7 +14,7 @@ IPS = ["10.10.1.1", "10.10.1.2", "10.10.1.3"]
 BLACKLIST = set([IG.UtahDDC, IG.NPS])
 
 for site in IG.aggregates():
-  print "Running for %s" % (site.name)
+  print(("Running for %s" % (site.name)))
 
   if site in BLACKLIST:
     continue

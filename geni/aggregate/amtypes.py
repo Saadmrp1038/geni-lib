@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import
+
 
 import abc
 
@@ -12,9 +12,7 @@ import six
 
 from .core import AMTypeRegistry
 
-class AMType(object):
-  __metaclass__ = abc.ABCMeta
-
+class AMType(object, metaclass=abc.ABCMeta):
   def __init__ (self, name):
     self.name = name
 

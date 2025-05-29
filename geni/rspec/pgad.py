@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import
+
 
 from lxml import etree as ET
 import six
@@ -300,7 +300,7 @@ class Advertisement(object):
     """An iterable of the unique images found in this advertisement."""
     if not self._images:
       for node in self.nodes:
-        for image_list in node.images.values():
+        for image_list in list(node.images.values()):
           for image in image_list:
             self._images.add(image)
     for image in self._images:

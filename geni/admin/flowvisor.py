@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import xmlrpclib
+import xmlrpc.client
 
 class Connection(object):
   def __init__ (self):
@@ -20,7 +20,7 @@ class Connection(object):
   @property
   def xmlconn (self):
     if self._xmlconn is None:
-      self._xmlconn = xmlrpclib.ServerProxy("https://%s:%s@%s:%d/xmlrpc" % (
+      self._xmlconn = xmlrpc.client.ServerProxy("https://%s:%s@%s:%d/xmlrpc" % (
         self.user, self.password, self.host, self.xmlrpcport))
     return self._xmlconn
 

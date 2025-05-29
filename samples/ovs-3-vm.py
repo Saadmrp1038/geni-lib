@@ -16,7 +16,7 @@ OVS_IPS = ["10.10.1.11", "10.10.1.12", "10.10.1.13"]
 BLACKLIST = set([IG.UtahDDC, IG.NPS])
 
 for site in IG.aggregates():
-  print site.name
+  print((site.name))
   if site in BLACKLIST:
     continue
 
@@ -36,13 +36,13 @@ for site in IG.aggregates():
   ovs.addService(PG.Execute(shell="sh", command = "sudo /local/install-script.sh"))
   ovs.addService(PG.Install(path="/local", url = "http://www.gpolab.bbn.com/experiment-support/OpenFlowOVS/of-ovs.tar.gz"))
   ovs.component_manager_id = cmid
-  for idx in xrange(0,3):
+  for idx in range(0,3):
     intf = ovs.addInterface("if%d" % (idx))
     intf.addAddress(PG.IPv4Address(OVS_IPS[idx], NETMASK))
     ovs_intfs.append(intf)
   r.addResource(ovs)
 
-  for ct in xrange(0,3):
+  for ct in range(0,3):
     vzc = PG.VZContainer("host%d" % (ct+1))
     vzc.component_manager_id = cmid
     intf = vzc.addInterface("if0")

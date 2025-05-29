@@ -23,7 +23,7 @@ node = PG.RawPC("geevts0")
 node.disk_image = "urn:publicid:IDN+utahddc.geniracks.net+image+emulab-ops:FEDORA15-STD"
 
 intfs = []
-for idx in xrange(1,4):
+for idx in range(1,4):
   intf = node.addInterface("if%d" % (idx))
   intf.component_id = "eth%d" % (idx)
   intfs.append(intf)
@@ -32,7 +32,7 @@ for idx in xrange(1,4):
   lnk.connectSharedVlan("mesoscale-openflow")
   r.addResource(lnk)
 
-pairs = zip(itertools.cycle(intfs), vtsvlans)
+pairs = list(zip(itertools.cycle(intfs), vtsvlans))
 for (intf, vlan) in pairs:
   lnk = PG.Link()
   lnk.addInterface(intf)

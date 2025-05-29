@@ -27,7 +27,7 @@ def query_aggregate (context, site, q = None):
   if q:
     q.put(out)
   else:
-    print out
+    print(out)
   
 
 def do_parallel ():
@@ -44,7 +44,7 @@ def do_parallel ():
     l.append(q.get())
 
   for idx,txt in enumerate(l):
-    print "%02d %s" % (idx+1, txt)
+    print(("%02d %s" % (idx+1, txt)))
 
 
 def do_serial ():

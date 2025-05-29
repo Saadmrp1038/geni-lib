@@ -7,7 +7,7 @@
 """Simple library for manipulating URNs, particularly those used for GENI
 objects"""
 
-from __future__ import absolute_import
+
 
 import re
 

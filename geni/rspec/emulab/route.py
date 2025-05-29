@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import
+
 
 from ..pg import Request, Namespaces, Execute
 from ..pg import NodeType, DuplicateExtensionError
@@ -36,7 +36,7 @@ class requestBusRoute(object):
         el.attrib["name"] = self._name
         
         if self.disk_image:
-            if isinstance(self.disk_image, (str, unicode)):
+            if isinstance(self.disk_image, str):
                 di = ET.SubElement(el, "{%s}disk_image" % (GNS.REQUEST.name))
                 di.attrib["name"] = self.disk_image
             elif isinstance(self.disk_image, geni.urn.Base):

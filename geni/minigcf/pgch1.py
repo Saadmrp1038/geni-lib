@@ -6,7 +6,7 @@
 
 # XML-RPC bindings for Protogeni CH/SA API revision 1
 
-from __future__ import absolute_import
+
 
 from six.moves import xmlrpc_client as xmlrpclib
 

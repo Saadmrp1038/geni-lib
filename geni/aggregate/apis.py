@@ -4,7 +4,7 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import, unicode_literals
+
 
 from io import open
 
@@ -101,7 +101,7 @@ class AMAPIv3(object):
     res = AM3.delete(url, False, context.cf.cert, context.cf.key, [sinfo], urns, options)
     if res["code"]["geni_code"] == 0:
       return res
-    if res["code"].has_key("am_type"):
+    if "am_type" in res["code"]:
       if res["code"]["am_type"] == "protogeni":
         ProtoGENI.raiseError(res)
     raise ProvisionError(res["output"], res)

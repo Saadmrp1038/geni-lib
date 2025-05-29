@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import
+
 
 import os.path
 
@@ -346,7 +346,7 @@ class CHAPI2(Framework):
     if res["code"] == 0:
       projects = []
       if isinstance(res["value"], dict):
-        for info in res["value"].values():
+        for info in list(res["value"].values()):
           projects.append(CHAPI2Project(info))
       else:
         for info in res["value"]:
@@ -472,7 +472,7 @@ class CHAPI2(Framework):
 
     res = chapi2.lookup_key_info(self._ma, False, self.cert, self.key, [context.ucred_api3], user_urn)
     if res["code"] == 0:
-      key_list = [x["KEY_PUBLIC"] for x in res["value"].values()]
+      key_list = [x["KEY_PUBLIC"] for x in list(res["value"].values())]
       return key_list
     else:
       raise ClearinghouseError(res["output"], res)
@@ -482,7 +482,7 @@ class CHAPI2(Framework):
 
     res = chapi2.lookup_member_info(self._ma, False, self.cert, self.key, [context.ucred_api3],
                                     urn = urn, uid = uid)
-    return MemberRegistry.addMemberInfo(res["value"].values()[0])
+    return MemberRegistry.addMemberInfo(list(res["value"].values())[0])
 
 
 class Portal(CHAPI2):

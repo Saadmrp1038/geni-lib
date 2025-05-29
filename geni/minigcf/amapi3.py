@@ -7,7 +7,7 @@
 # Streamlined implementation of xmlrpc calls to AM API v3-compliant aggregates
 # Only uses python requests module, without a ton of extra SSL dependencies
 
-from __future__ import absolute_import
+
 
 from six.moves import xmlrpc_client as xmlrpclib
 

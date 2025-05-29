@@ -20,5 +20,5 @@ m = IG.UtahDDC.createsliver(context, SLICENAME, r)
 
 for node in m.nodes:
   for login in node.logins:
-    print "[%s] %s:%d" % (login.username, login.hostname, login.port)
+    print(("[%s] %s:%d" % (login.username, login.hostname, login.port)))
 

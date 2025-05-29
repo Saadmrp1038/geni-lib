@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import
+
 
 import re
 import sys
@@ -500,7 +500,7 @@ class ParameterData(object):
       elm = ET.SubElement(root, "data_struct", nsmap=pgns)
       if k:
         elm.attrib["name"] = prefix + k
-      for dk in v.keys():
+      for dk in list(v.keys()):
         self._write_parameter(elm,dk,v[dk],prefix="",ismember=True)
     else:
       if ismember:

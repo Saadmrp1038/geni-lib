@@ -9,7 +9,7 @@ import geni.rspec.pg as PG
 DISK_IMAGE = "https://www.emulab.net/image_metadata.php?uuid=653fdd27-5cb3-11e3-83eb-001143e453fe"
 
 def bindVlans(rspec, pc, cid, start, end):
-  for vlan in xrange(start,end+1):
+  for vlan in range(start,end+1):
     intf = pc.addInterface("if%d" % (vlan))
     intf.component_id = cid
     lnk = PG.Link()

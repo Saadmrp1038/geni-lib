@@ -25,11 +25,11 @@ pc = portal.Context()
 lan = RSpec.LAN("shaped-lan")
 rspec.addResource(lan)
 
-for nid,sparms in nodeset.items():
+for nid,sparms in list(nodeset.items()):
     node = RSpec.RawPC(nid)
     rspec.addResource(node)
     iface = node.addInterface("if1")
-    for parm,val in sparms.items():
+    for parm,val in list(sparms.items()):
         iface.__dict__[parm] = val
     lan.addInterface(iface)
 

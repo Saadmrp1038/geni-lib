@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import
+
 
 import os
 import os.path
@@ -28,7 +28,7 @@ def getDefaultDir ():
       os.makedirs(DEF_DIR, 0o775)
       import ctypes
       BSSW = "%s/bssw" % (HOME)
-      if not ctypes.windll.kernel32.SetFileAttributesW(unicode(BSSW), WIN32_ATTR_HIDDEN):
+      if not ctypes.windll.kernel32.SetFileAttributesW(str(BSSW), WIN32_ATTR_HIDDEN):
         raise ctypes.WinError()
 
   return DEF_DIR

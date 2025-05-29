@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import
+
 
 from lxml import etree as ET
 
@@ -35,7 +35,7 @@ class UserData(object):
     if self.userdata is not None:
       ud = ET.SubElement(element, "data_set",
                          nsmap={None : Namespaces.DATA.name})
-      for key, value in self.userdata.data.iteritems():
+      for key, value in list(self.userdata.data.items()):
         udi = ET.SubElement(ud, "data_item")
         udi.attrib["name"] = self.userdata.prefix + key
 

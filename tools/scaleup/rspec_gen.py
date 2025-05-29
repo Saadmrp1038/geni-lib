@@ -78,7 +78,7 @@ def check_node_type(config_info):
                                "section called [%s]! Please check your " \
                                "configuration file" % (node_type, node_type, node_type))
             else:
-                node_property = config_info[node_type.strip()].keys()
+                node_property = list(config_info[node_type.strip()].keys())
                 if not( set(node_property) >= set(NODE_PROPERTY) ):
                     node_property.sort()
                     NODE_PROPERTY.sort()
@@ -144,7 +144,7 @@ def check_am_usage(config_info):
 
 def check_am_assignment(config_info):
     ''' check [am_nodes] section in the configuration file '''
-    ig_sites = site_info.ig_site.values()
+    ig_sites = list(site_info.ig_site.values())
     ig_name = ['any']
     for site in ig_sites:
         ig_name.append(site.name)
@@ -152,16 +152,16 @@ def check_am_assignment(config_info):
     if 'am_nodes' in config_info:
         if config_info['am_nodes']:
             if config_info['general']['single_am'] in YES:
-                if len(config_info['am_nodes'].keys()) > 1:
+                if len(list(config_info['am_nodes'].keys())) > 1:
                     raise ValueError("'single_am = yes', but nodes are assigned to more than one aggregate. Please check [am_nodes] section.")
             if config_info['general']['single_am'] in NO:
-                if len(config_info['am_nodes'].keys()) <= 1:
+                if len(list(config_info['am_nodes'].keys())) <= 1:
                     raise ValueError("'single_am = no', but nodes are assigned to less than two aggregates. Please check [am_nodes] section")
                 
             if not set(config_info['am_nodes'].keys()).issubset(set(ig_name)):
                 raise KeyError("Check [am_nodes] section in the " \
                 "configuration file, there are errors in the aggregate's "
-                "name. The current assigned aggregates are %s.  Possible values are %s" % (str(config_info['am_nodes'].keys()) ,str(ig_name) ))
+                "name. The current assigned aggregates are %s.  Possible values are %s" % (str(list(config_info['am_nodes'].keys())) ,str(ig_name) ))
         else:
             raise KeyError("You should configure [am_nodes] section, it cannot be empty!")
     else:
@@ -322,7 +322,7 @@ def add_link_to_rspec(config_info, site_dict, link_ifaces, vn, rspec, shared_vla
                 if not shared_vlan_info:
                     adding_iface_to_lan(item, link, link_ifaces)
                 else:
-                    sharedvlan = shared_vlan_info.keys()[0]
+                    sharedvlan = list(shared_vlan_info.keys())[0]
                     adding_iface_to_lan(item, link, link_ifaces, shared_vlan=sharedvlan)
             rspec.addResource(link)            
     else:
@@ -334,7 +334,7 @@ def add_link_to_rspec(config_info, site_dict, link_ifaces, vn, rspec, shared_vla
                 link = pg.LAN(link_name)
                 # get LAN information from the configuration file, if it exists
                 sharedvlan = None
-                for key, value in shared_vlan_info.items():
+                for key, value in list(shared_vlan_info.items()):
                     if value in item:
                         sharedvlan = key
                         break
@@ -375,14 +375,14 @@ def dryrun():
     
     # Check whether using single InstaGENI site or multiple InstaGENI sites
     if config_info['general']['single_am'] in BOOL:
-        site_id = config_info['am_nodes'].keys()[0]
+        site_id = list(config_info['am_nodes'].keys())[0]
         config_info['am_nodes'][site_id]= vn.topo.nodes()
         site_dict = config_info['am_nodes']
     else:
         site_dict = {}
         for site_id in config_info['am_nodes']:
             temp_list = config_info['am_nodes'][site_id].split(',')
-            site_dict[int(site_id)] = map(int, temp_list)
+            site_dict[int(site_id)] = list(map(int, temp_list))
  
     rspec = pg.Request()
     
@@ -451,17 +451,17 @@ def main(argv=None):
     if config_info['general']['single_am'] in YES:
         # Single InstaGENI site is used
         site_dict = {}
-        site_name = config_info['am_nodes'].keys()[0].lower()
+        site_name = list(config_info['am_nodes'].keys())[0].lower()
         site_nodes = config_info['am_nodes'][site_name]
         if config_info['am_nodes'][site_name] != 'all':
             print("INFO: 'single_am=yes' so ALL nodes " \
                       "belong to a single InstaGENI aggregate.")
             if ("any" in config_info['am_nodes']) and config_info['am_nodes']['any'].strip().lower() == "all":
-                print("INFO: The RSpec will be unbound "\
-                "(because nodes are listed as %s)." % config_info['am_nodes'])
+                print(("INFO: The RSpec will be unbound "\
+                "(because nodes are listed as %s)." % config_info['am_nodes']))
             else:
-                print("The RSpec will be bound "\
-                "(because nodes are listed as %s)." % config_info['am_nodes'])
+                print(("The RSpec will be bound "\
+                "(because nodes are listed as %s)." % config_info['am_nodes']))
         if vn.topo_type == 'lan':
             # excluding the first node, which is the lan-sw type
             config_info['am_nodes'][site_name]= vn.topo.nodes()[1:]
@@ -490,7 +490,7 @@ def main(argv=None):
                         " are not supported" % str(temp_list))
             else:
                 site_id = find_site_id(site_name)
-                site_dict[int(site_id)] = map(int, temp_list)
+                site_dict[int(site_id)] = list(map(int, temp_list))
  
     rspec = pg.Request()
     
@@ -504,7 +504,7 @@ def main(argv=None):
     rspec = add_link_to_rspec(config_info, site_dict, link_ifaces, vn, rspec, shared_vlan_info)
     # write rspec
     rspec.writeXML(rspec_file)    
-    print("\nThe generated RSpec has been written to:\n\t %s " % rspec_file)
+    print(("\nThe generated RSpec has been written to:\n\t %s " % rspec_file))
     
 
     

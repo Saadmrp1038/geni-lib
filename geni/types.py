@@ -50,7 +50,7 @@ class DPID(object):
     if isinstance(val, (six.string_types)):
       val = int(val.translate(None, ":-."), 16)
 
-    if isinstance(val, (int, long)):
+    if isinstance(val, int):
       if val < DPID.MAX and val >= 0:
         self._dpid = val
       else:
@@ -70,7 +70,7 @@ class DPID(object):
       str: Hex formatted DPID, with colons
     """
     s = self.hexstr()
-    return ":".join(["%s%s" % (s[x], s[x+1]) for x in xrange(0,15,2)])
+    return ":".join(["%s%s" % (s[x], s[x+1]) for x in range(0,15,2)])
 
   def __repr__ (self):
     return str(self)
@@ -130,7 +130,7 @@ class EthernetMAC (object):
       val = val.replace("-", "")
       val = int(val, 16)
 
-    if isinstance(val, (long, int)):
+    if isinstance(val, int):
       if val < EthernetMAC.MAX and val >= 0:
         self._mac = val
       else:

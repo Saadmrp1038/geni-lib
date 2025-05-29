@@ -13,7 +13,7 @@ image = VTS.OVSOpenFlowImage("tcp:54.88.120.184:6633")
 #image.sflow = VTS.SFlow("192.0.2.1")
 
 # Create all the empty datapaths and add them to the Request
-dps = [VTS.Datapath(image, "dp%d" % (x)) for x in xrange(0,6)]
+dps = [VTS.Datapath(image, "dp%d" % (x)) for x in range(0,6)]
 for dp in dps:
   r.addResource(dp)
 

@@ -11,9 +11,9 @@ The module-level `makeFile` method uses a pre-existing singleton manager for the
 while individual `TempfileManager` instances can be created to serve different user needs and scopes.
 """
 
-from __future__ import absolute_import
 
-import tempfile
+
+from . import tempfile
 import os
 import shutil
 import atexit

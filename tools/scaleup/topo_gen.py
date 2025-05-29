@@ -318,7 +318,7 @@ class Network(object):
                 self.num_nodes = int(topo_info['num_nodes'])
                 temp = nx.grid_2d_graph( 1, self.num_nodes)
                 mapping = {}
-                for i in xrange(0, self.num_nodes):
+                for i in range(0, self.num_nodes):
                     mapping[(0,i)] = i+1
                 self.topo = nx.relabel_nodes( temp, mapping)
 
@@ -645,7 +645,7 @@ def config_nodes(vn, config_info):
                 sublist = vn.topo.nodes()
             else:
                 # otherwise, get the list of nodes belonging to this particular <node_type>
-                sublist = map(int, config_info[node_type]['node_list'].split(','))
+                sublist = list(map(int, config_info[node_type]['node_list'].split(',')))
             if node.id in sublist:
                 # configure the node, if find the node id from the list
                 node.set_prefix(config_info[node_type]['node_prefix'])
@@ -660,7 +660,7 @@ def config_nodes(vn, config_info):
                 break
             if 'add-lan' in config_info:
                 # the keys of the lan information dictionary are the center switches of the additional LANs
-                if node.id in config_info['add-lan'].keys():
+                if node.id in list(config_info['add-lan'].keys()):
                     node.update_type('lan-sw')
                     break;
             if 'lan' in config_info:
@@ -691,7 +691,7 @@ def create_topo(config_info):
             topo_info = config_info[topo_type]
     # get LAN information from the configuration file, if it exists
     if 'add-lan' in config_info:
-        print "Adding additional LANs to your topology"
+        print("Adding additional LANs to your topology")
         if 'lans' in config_info['add-lan']:
             lan_info = eval(config_info['add-lan']['lans'])
         else:
@@ -704,7 +704,7 @@ def create_topo(config_info):
     # get Shared LAN information from the configuration file, if it exists
     shared_lan_info ={}
     if 'add-shared-vlan' in config_info:
-        print "Adding additional Shared LANs to your topology"
+        print("Adding additional Shared LANs to your topology")
 
         if 'shared_vlans' in config_info['add-shared-vlan']:
             shared_vlans = config_info['add-shared-vlan']['shared_vlans']
@@ -777,7 +777,7 @@ def create_topo(config_info):
             vn, config_info, newlan = add_lan_to_vn( vn, lan_info, config_info)
 
         if shared_lan_info:
-            for key, value in shared_lan_info.items():
+            for key, value in list(shared_lan_info.items()):
                 vn, config_info, newlan = add_lan_to_vn( vn, value, config_info)
                 shared[key] = newlan
 
@@ -798,7 +798,7 @@ def add_lan_to_vn( vn, info, config_info):
             # update the 'add-lan' information with add-on center switch node
             if not ("add-lan" in config_info):
                 config_info['add-lan'] = {}
-            config_info['add-lan'] = dict(config_info['add-lan'].items() + new_lan_list.items())
+            config_info['add-lan'] = dict(list(config_info['add-lan'].items()) + list(new_lan_list.items()))
             if len(config_info['general']['node_type'].split(',')) == 1:
                 node_type = config_info['general']['node_type'].strip()
                 if config_info[node_type]['node_list'].upper() == 'ALL':

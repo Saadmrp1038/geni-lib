@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import absolute_import
+
 
 import base64
 import functools
@@ -396,12 +396,12 @@ class OVSL2STP(object):
 
     if self._mode == OVSL2STP.STP:
       se.attrib["type"] = "stp"
-      for k,v in self._stp_params.items():
+      for k,v in list(self._stp_params.items()):
         pe = ET.SubElement(se, "{%s}%s" % (Namespaces.VTS, k))
         pe.attrib["value"] = str(v)
     elif self._mode == OVSL2STP.RSTP:
       se.attrib["type"] = "rstp"
-      for k,v in self._rstp_params.items():
+      for k,v in list(self._rstp_params.items()):
         pe = ET.SubElement(se, "{%s}%s" % (Namespaces.VTS, k))
         pe.attrib["value"] = str(v)
     elif self._mode == -1:
@@ -412,10 +412,10 @@ class OVSL2STP(object):
   def _as_jsonable (self):
     obj = {"type" : self.type}
     if self._mode == OVSL2STP.STP:
-      for k,v in self._stp_params.items():
+      for k,v in list(self._stp_params.items()):
         obj[k] = v
     elif self._mode == OVSL2STP.RSTP:
-      for k,v in self._rstp_params.items():
+      for k,v in list(self._rstp_params.items()):
         obj[k] = v
     return obj
 
@@ -593,7 +593,7 @@ class Container(Resource):
     return port
 
   def addIPRoute (self, network, gateway):
-    self.routes.append((ipaddress.IPv4Network(unicode(network)), ipaddress.IPv4Address(unicode(gateway))))
+    self.routes.append((ipaddress.IPv4Network(str(network)), ipaddress.IPv4Address(str(gateway))))
 
   def connectCrossSliver (self, other_dp):
     port = InternalCircuit(None, None, None, None)
@@ -691,7 +691,7 @@ class ContainerPort(InternalCircuit):
     return p
 
   def addIPv4Address (self, value):
-    self._v4addresses.append(ipaddress.IPv4Interface(unicode(value)))
+    self._v4addresses.append(ipaddress.IPv4Interface(str(value)))
 
 
 class GRECircuit(Port):
@@ -724,7 +724,7 @@ class Mount(Resource):
     melem.attrib["type"] = self.type
     melem.attrib["name"] = self.name
     melem.attrib["path"] = self.mount_path
-    for k,v in self.attrs.iteritems():
+    for k,v in list(self.attrs.items()):
       melem.attrib[k] = str(v)
     return melem
 

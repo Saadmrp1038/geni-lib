@@ -30,7 +30,7 @@ n2.disk_image = DISK_IMAGE
 r.addResource(n1)
 r.addResource(n2)
 
-for lan in xrange(0, 45):
+for lan in range(0, 45):
   i1 = n1.addInterface("if%d" % (lan))
   i2 = n2.addInterface("if%d" % (lan))
   i1.bandwidth = 10000

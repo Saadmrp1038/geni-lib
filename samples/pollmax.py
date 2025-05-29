@@ -15,5 +15,5 @@ if __name__ == '__main__':
 
   while True:
     avail = geni.util.checkavailrawpc(context, IG.MAX)
-    print "%s: %d" % (time.ctime(), len(avail))
+    print(("%s: %d" % (time.ctime(), len(avail))))
     time.sleep(20)
