@@ -3,5 +3,5 @@ docs/build/*
 lint.out
 .venv/
 *.pem
-dist/
+# dist/
 *egg-info/
