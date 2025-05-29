@@ -9,13 +9,10 @@ in experiments - particularly those exposing services to other experimenters.
 Documentation can be found at [https://geni-lib.readthedocs.io](https://geni-lib.readthedocs.io).
 
 This is a fork of the original `geni-lib` library that converts the python2 code to python3 and fixes some other incompatibilities.
-The modified package is available at `dist/geni-lib-0.1.tar.gz`. It can be installed with 
-```bash
-pip install <path-to-package>
-```
 
 ## Installation
+The modified package is available at `dist/geni-lib-0.1.tar.gz`. It can be installed with:
 
 ```bash
-pip install dist/geni-lib-0.1.tar.gz
+pip install <path-to-package>
 ```
