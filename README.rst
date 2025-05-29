@@ -7,3 +7,5 @@ of administrative API handlers available for interacting with software commonly 
 in experiments - particularly those exposing services to other experimenters.
 
 Documentation can be found at `https://geni-lib.readthedocs.io <https://geni-lib.readthedocs.io>`_.
+
+This is a fork of the original geni-lib library that converts the python2 code to python3. And fix some other incompatibilities.
