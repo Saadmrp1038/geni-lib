@@ -11,7 +11,7 @@ Documentation can be found at [https://geni-lib.readthedocs.io](https://geni-lib
 This is a fork of the original `geni-lib` library that converts the python2 code to python3 and fixes some other incompatibilities.
 
 ## Installation
-The modified package is available at `dist/geni-lib-0.1.tar.gz`. It can be installed with:
+The modified package is available at `dist/geni_lib_xlab-1.0.0.tar.gz`. It can be installed with:
 
 ```bash
 pip install <path-to-package>
