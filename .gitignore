@@ -3,3 +3,4 @@ docs/build/*
 lint.out
 .venv/
 *.pem
+dist/
