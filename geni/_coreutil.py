@@ -13,7 +13,7 @@ import ssl
 import pkg_resources
 
 WIN32_ATTR_HIDDEN = 0x02
-VERSION = pkg_resources.require("geni-lib")[0].version
+VERSION = pkg_resources.require("geni-lib-xlab")[0].version
 
 def getDefaultDir ():
   HOME = os.path.expanduser("~")

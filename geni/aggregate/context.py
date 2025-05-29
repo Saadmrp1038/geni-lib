@@ -61,7 +61,7 @@ class SliceCredInfo(object):
     cred = self.context.cf.getSliceCredentials(self.context, self.slicename)
 
     f = open(self._path, "wb+")
-    f.write(cred)
+    f.write(cred.encode('utf-8') if isinstance(cred, str) else cred)
     f.close()
     self._parseInfo()
 
@@ -232,7 +232,7 @@ class Context(object):
         cred = self.cf.getUserCredentials(self.userurn)
 
         f = open(ucpath, "wb+")
-        f.write(cred)
+        f.write(cred.encode('utf-8') if isinstance(cred, str) else cred)
         f.close()
 
       (expires, urn, typ, version) = self._getCredInfo(ucpath)
@@ -241,7 +241,7 @@ class Context(object):
     if self._usercred_info[1] < datetime.datetime.now():
       cred = self.cf.getUserCredentials(self.userurn)
       f = open(ucpath, "wb+")
-      f.write(cred)
+      f.write(cred.encode('utf-8') if isinstance(cred, str) else cred)
       f.close()
       (expires, urn, typ, version) = self._getCredInfo(ucpath)
       self._usercred_info = (ucpath, expires, urn, typ, version)

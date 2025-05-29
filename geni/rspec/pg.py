@@ -92,7 +92,7 @@ class Request(geni.rspec.RSpec):
       f = open(path, "w+")
 
     buf = self.toXMLString(True,True)
-    f.write(buf)
+    f.write(buf.decode('utf-8') if isinstance(buf, bytes) else buf)
 
     if path is not None:
       f.close()

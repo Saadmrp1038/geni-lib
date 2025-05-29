@@ -4,3 +4,4 @@ lint.out
 .venv/
 *.pem
 dist/
+*egg-info/

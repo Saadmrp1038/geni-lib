@@ -25,8 +25,8 @@ if os.name == "posix" and os.uname()[0] == "Linux":
 pkgs = find_packages()
 pkgs.append('')
 
-setup(name = 'geni-lib',
-      version = '0.9.9.5',
+setup(name = 'geni-lib-xlab',
+      version = '1.0.0',
       author = 'Nick Bastin and the University of Utah',
       author_email = 'nick@bssoftworks.com',
       description = 'Library and tools for working with research testbed resources that support ' \
